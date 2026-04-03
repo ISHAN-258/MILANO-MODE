@@ -997,6 +997,179 @@
         revealElements.forEach(el => {
             revealOnScroll.observe(el);
         });
+        // ==========================================
+        // MILANO MODE - FULL CART & CHECKOUT SYSTEM
+        // ==========================================
+
+        // 1. INJECT CART HTML AUTOMATICALLY
+        document.body.insertAdjacentHTML('beforeend', `
+            <div class="cart-overlay" id="cart-overlay"></div>
+            <div class="cart-drawer" id="cart-drawer">
+                <div class="cart-header">
+                    <h3 style="font-family: var(--font-serif); margin: 0; font-size: 1.2rem;">Your Archive (<span id="cart-count">0</span>)</h3>
+                    <button class="close-cart" id="close-cart"><i class="ph ph-x"></i></button>
+                </div>
+                <div class="cart-items" id="cart-items"></div>
+                <div class="cart-footer">
+                    <div class="cart-total"><span>Total</span><span id="cart-total-price">₹0</span></div>
+                    <button class="btn checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+                </div>
+            </div>
+        `);
+
+        // 2. INJECT CSS STYLES FOR CART & SIZES
+        const cartStyle = document.createElement('style');
+        cartStyle.innerHTML = `
+            .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1001; opacity: 0; visibility: hidden; transition: var(--transition-fast); }
+            .cart-overlay.active { opacity: 1; visibility: visible; }
+            .cart-drawer { position: fixed; top: 0; right: 0; transform: translateX(100%); width: 100%; max-width: 400px; height: 100vh; background: var(--white); z-index: 1002; display: flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -5px 0 30px rgba(0,0,0,0.1); }
+            .cart-drawer.active { transform: translateX(0); }
+            .cart-header { padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+            .close-cart { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+            .cart-items { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+            .cart-item { display: flex; gap: 1rem; align-items: center; }
+            .cart-item img { width: 75px; height: 100px; object-fit: cover; }
+            .cart-item-details { flex: 1; text-align: left; }
+            .cart-item-title { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+            .cart-item-size { font-size: 0.75rem; color: var(--text-muted); margin: 0.3rem 0; font-weight: 500;}
+            .cart-item-price { font-size: 0.95rem; color: var(--accent); font-weight: 600; }
+            .remove-item { background: none; border: none; color: #d9534f; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; margin-top: 0.5rem; letter-spacing: 1px; font-weight: 600;}
+            .cart-footer { padding: 1.5rem; border-top: 1px solid var(--border-light); background: #faf9f6; }
+            .cart-total { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; font-family: var(--font-serif); }
+            .checkout-btn { width: 100%; background: var(--text-main); color: var(--white); border: none; padding: 1rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; }
+            .checkout-btn:hover { background: var(--accent); }
+
+            .size-selector { display: flex; gap: 0.5rem; width: 100%; justify-content: center; }
+            .size-btn { flex: 1; padding: 0.6rem 0; background: var(--white); color: var(--text-main); border: 1px solid var(--border-light); cursor: pointer; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; transition: var(--transition-fast); }
+            .size-btn:hover { background: var(--text-main); color: var(--white); border-color: var(--text-main); }
+            
+            .cart-badge { position: absolute; top: -6px; right: -8px; background: var(--accent); color: var(--white); font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-family: var(--font-sans); }
+        `;
+        document.head.appendChild(cartStyle);
+
+        // 3. TRANSFORM PRODUCT CARDS TO HAVE FUNCTIONAL SIZES
+        document.querySelectorAll('.product-card').forEach(card => {
+            const title = card.querySelector('.product-title').innerText.replace(/'/g, "\\'");
+            const priceText = card.querySelector('.price-new').innerText.replace(/[^0-9]/g, '');
+            const price = parseInt(priceText);
+            const img = card.querySelector('.product-img').src;
+            
+            const uiContainer = card.querySelector('.add-to-cart-ui');
+            uiContainer.innerHTML = `
+                <div class="size-selector">
+                    <button class="size-btn" onclick="addToCart('${title}', ${price}, 'S', '${img}')">S</button>
+                    <button class="size-btn" onclick="addToCart('${title}', ${price}, 'M', '${img}')">M</button>
+                    <button class="size-btn" onclick="addToCart('${title}', ${price}, 'L', '${img}')">L</button>
+                    <button class="size-btn" onclick="addToCart('${title}', ${price}, 'XL', '${img}')">XL</button>
+                </div>
+            `;
+        });
+
+        // 4. ADD BADGE TO THE SHOPPING BAG ICON IN NAVBAR
+        const shoppingBagIcon = document.querySelector('.ph-shopping-bag');
+        const iconHTML = shoppingBagIcon.outerHTML;
+        shoppingBagIcon.outerHTML = `
+            <div class="cart-icon-wrapper" id="cart-icon" style="position: relative; display: inline-block; cursor: pointer;">
+                ${iconHTML}
+                <div class="cart-badge" id="cart-badge-count" style="display:none;">0</div>
+            </div>
+        `;
+
+        // 5. CORE CART LOGIC
+        let cart = JSON.parse(localStorage.getItem('milanoCart')) || [];
+
+        function saveCart() { localStorage.setItem('milanoCart', JSON.stringify(cart)); }
+
+        window.addToCart = function(name, price, size, img) {
+            cart.push({ name, price, size, img, id: Date.now() });
+            saveCart();
+            updateCartUI();
+            openCart(); // Opens the drawer automatically when item added
+        };
+
+        window.removeFromCart = function(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            updateCartUI();
+        };
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total-price');
+            const cartBadge = document.getElementById('cart-badge-count');
+            
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:3rem;">Your archive is currently empty.</p>';
+                if(cartBadge) cartBadge.style.display = 'none';
+            } else {
+                if(cartBadge) {
+                    cartBadge.style.display = 'flex';
+                    cartBadge.innerText = cart.length;
+                }
+                cart.forEach(item => {
+                    total += item.price;
+                    cartItemsContainer.innerHTML += `
+                        <div class="cart-item">
+                            <img src="${item.img}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.name}</div>
+                                <div class="cart-item-size">Size: ${item.size}</div>
+                                <div class="cart-item-price">₹${item.price}</div>
+                                <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            cartCount.innerText = cart.length;
+            cartTotal.innerText = `₹${total}`;
+        }
+
+        // 6. WHATSAPP CHECKOUT LOGIC
+        window.checkout = function() {
+            if(cart.length === 0) return alert('Your archive is empty. Add items to checkout.');
+            
+            let message = "Hello Milano Mode Studio, I would like to order the following items from the archive:%0A%0A";
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} - Size: ${item.size} - ₹${item.price}%0A`;
+                total += item.price;
+            });
+            
+            message += `%0A*Total Order Value: ₹${total}*%0A%0APlease provide me with the next steps for payment and shipping details.`;
+            
+            // Sends the compiled cart directly to the official WhatsApp number
+            window.open(`https://wa.me/918052472815?text=${message}`, '_blank');
+        };
+
+        // 7. TOGGLE CART DRAWER ON CLICKS
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartIconBtn = document.getElementById('cart-icon');
+
+        function openCart() {
+            cartDrawer.classList.add('active');
+            cartOverlay.classList.add('active');
+        }
+
+        function closeCart() {
+            cartDrawer.classList.remove('active');
+            cartOverlay.classList.remove('active');
+        }
+
+        cartIconBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        // Load existing cart from previous session
+        updateCartUI();
     </script>
 </body>
 </html>
