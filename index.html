@@ -139,15 +139,20 @@
             border-bottom: 1px solid var(--border-light);
             box-shadow: 0 4px 30px rgba(0,0,0,0.03);
         }
-        .navbar.scrolled * { color: var(--text-main) !important; }
         
         .logo {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
             transition: var(--transition-fast);
+        }
+        /* When not scrolled (transparent background), invert logo if it's black so it shows on dark background */
+        body:not(.scrolled) .navbar:not(.scrolled) .logo img {
+            filter: brightness(0) invert(1);
         }
         
         .nav-links {
@@ -162,6 +167,9 @@
             font-weight: 500;
             position: relative;
         }
+        .navbar.scrolled .nav-links a, 
+        .navbar.scrolled .nav-icons { color: var(--text-main); }
+        
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -178,6 +186,7 @@
             color: var(--white);
             font-size: 1.2rem;
             cursor: pointer;
+            transition: var(--transition-fast);
         }
 
         .hamburger { display: none; cursor: pointer; color: var(--white); font-size: 1.5rem; }
@@ -196,7 +205,7 @@
         .hero-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop');
+            background-image: url('img1.jpeg');
             background-size: cover;
             background-position: center;
             z-index: -2;
@@ -208,7 +217,7 @@
         .hero-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
             z-index: -1;
         }
         
@@ -324,7 +333,6 @@
             gap: 3rem 2rem;
         }
         .product-card {
-            group: product;
             cursor: pointer;
         }
         .product-img-wrap {
@@ -513,10 +521,10 @@
             padding-bottom: 4rem;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .footer-brand .logo {
-            color: var(--white);
-            display: inline-block;
+        .footer-brand .logo img {
+            height: 45px;
             margin-bottom: 1.5rem;
+            filter: invert(1);
         }
         .footer-desc {
             color: #999;
@@ -634,7 +642,9 @@
 
     <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
-        <a href="#" class="logo">Milano Mode.</a>
+        <a href="#" class="logo">
+            <img src="logo.jpeg" alt="Milano Mode">
+        </a>
         
         <div class="nav-links" id="nav-links">
             <a href="#about">Our Story</a>
@@ -697,8 +707,7 @@
             <span class="uppercase" style="font-size: 0.65rem; color: var(--text-muted); display: block; margin-top: 0.5rem;">Creative Director</span>
         </div>
         <div class="about-img-wrap reveal">
-            <!-- Using high quality Unsplash fashion/fabric image as professional default -->
-            <img src="https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=2070&auto=format&fit=crop" alt="Milano Mode Craftsmanship" class="about-img">
+            <img src="img1.jpeg" alt="Milano Mode Craftsmanship" class="about-img">
         </div>
     </section>
 
@@ -714,7 +723,7 @@
             <!-- Product 1 -->
             <div class="product-card reveal">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1780&auto=format&fit=crop" alt="Signature Crew — Ivory" class="product-img" onerror="this.src='img1.jpeg'">
+                    <img src="img1.jpeg" alt="Signature Crew — Ivory" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -731,7 +740,7 @@
             <!-- Product 2 -->
             <div class="product-card reveal" style="transition-delay: 0.1s;">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=1887&auto=format&fit=crop" alt="Onyx Boxy Silhouette" class="product-img" onerror="this.src='img2.jpeg'">
+                    <img src="img2.jpeg" alt="Onyx Boxy Silhouette" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -748,7 +757,7 @@
             <!-- Product 3 -->
             <div class="product-card reveal" style="transition-delay: 0.2s;">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1618517351616-38fb9c52e047?q=80&w=1887&auto=format&fit=crop" alt="Slate Studio Polo" class="product-img" onerror="this.src='img3.jpeg'">
+                    <img src="img3.jpeg" alt="Slate Studio Polo" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -765,7 +774,7 @@
             <!-- Product 4 -->
             <div class="product-card reveal">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1740&auto=format&fit=crop" alt="Archive Graphic 01" class="product-img" onerror="this.src='img4.jpeg'">
+                    <img src="img4.jpeg" alt="Archive Graphic 01" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -782,7 +791,7 @@
             <!-- Product 5 -->
             <div class="product-card reveal" style="transition-delay: 0.1s;">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1520975954732-57dd22299614?q=80&w=1887&auto=format&fit=crop" alt="Heavyweight Sandstone" class="product-img" onerror="this.src='img5.jpeg'">
+                    <img src="img5.jpeg" alt="Heavyweight Sandstone" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -799,7 +808,7 @@
             <!-- Product 6 -->
             <div class="product-card reveal" style="transition-delay: 0.2s;">
                 <div class="product-img-wrap">
-                    <img src="https://images.unsplash.com/photo-1598032895397-b9472444bf93?q=80&w=1780&auto=format&fit=crop" alt="Bespoke Navy Tailored" class="product-img" onerror="this.src='img6.jpeg'">
+                    <img src="img6.jpeg" alt="Bespoke Navy Tailored" class="product-img">
                     <div class="add-to-cart-ui">
                         <button class="cart-btn">Add to Cart — Select Size</button>
                     </div>
@@ -876,7 +885,7 @@
                 <div class="contact-item">
                     <i class="ph ph-envelope-simple"></i>
                     <h4>Email</h4>
-                    <a href="mailto:Yashworks695@gmail.com">Milanomode2@gmail.com</a>
+                    <a href="mailto:Milanomode2@gmail.com">Milanomode2@gmail.com</a>
                     <p style="font-size: 0.8rem; margin-top: 0.5rem;">Response within 24 hours</p>
                 </div>
             </div>
@@ -893,7 +902,9 @@
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <a href="#" class="logo">Milano Mode.</a>
+                <a href="#" class="logo">
+                    <img src="logo.jpeg" alt="Milano Mode">
+                </a>
                 <p class="footer-desc">Bespoke silhouettes engineered for the modern individual. A Yash Works Production, meticulously directed by Arun Kr Pathak. Elevating the standard of everyday essentials.</p>
                 <div class="social-links">
                     <a href="#" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
