@@ -1676,12 +1676,224 @@
     </div> 
     
     ---- NAVBAR SCROLL EFFECT ----
-    <script>{ setTimeout(function() { document.getElementById('page-loader').classList.add('hidden'); }, 400); });   
-        window.addEventListener('load', function ()const navbar = document.getElementById('navbar'); window.addEventListener('scroll', () => { if (window.scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); } }); const hamburger = document.getElementById('hamburger'); const navLinks = document.getElementById('nav-links'); hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); const icon = hamburger.querySelector('i'); if (navLinks.classList.contains('active')) { icon.classList.replace('ph-list', 'ph-x'); } else { icon.classList.replace('ph-x', 'ph-list'); } }); document.querySelectorAll('.nav-links a').forEach(link => { link.addEventListener('click', () => { navLinks.classList.remove('active'); hamburger.querySelector('i').classList.replace('ph-x', 'ph-list'); }); }); let currentSlide = 0; const slides = document.querySelectorAll('.hero-slide'); const dots = document.querySelectorAll('.dot'); function goToSlide(index) { slides[currentSlide].classList.remove('active'); dots[currentSlide].classList.remove('active'); currentSlide = index; slides[currentSlide].classList.add('active'); dots[currentSlide].classList.add('active'); } function nextSlide() { goToSlide((currentSlide + 1) % slides.length); } setInterval(nextSlide, 5000); const revealElements = document.querySelectorAll('.reveal'); const revealObserver = new IntersectionObserver(function (entries, observer) { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' }); revealElements.forEach(el => revealObserver.observe(el)); function showToast(message) { const toast = document.getElementById('toast'); toast.textContent = message; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2800); } let cart = JSON.parse(localStorage.getItem('milanoCart')) || []; function saveCart() { localStorage.setItem('milanoCart', JSON.stringify(cart)); } window.addToCart = function (name, price, size, img) { cart.push({ name, price, size, img, id: Date.now() }); saveCart(); updateCartUI(); showToast('Added to Archive — Size ' + size + ' ✓');  setTimeout(openCart, 600); };  window.removeFromCart = function(id) {   cart = cart.filter(item => item.id !== id);   saveCart();   updateCartUI(); };  function updateCartUI() {   const cartItemsContainer = document.getElementById('cart-items');   const cartCount = document.getElementById('cart-count');   const cartTotal = document.getElementById('cart-total-price');   const cartBadge = document.getElementById('cart-badge-count');    cartItemsContainer.innerHTML = '';   let total = 0;    if (cart.length === 0) {     cartItemsContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:3rem; font-size:0.85rem; letter-spacing:1px;">Your archive is currently empty.</p>';     if (cartBadge) cartBadge.style.display = 'none';   } else {     if (cartBadge) {       cartBadge.style.display = 'flex';       cartBadge.innerText = cart.length;     }     cart.forEach(item => {       total += item.price;       cartItemsContainer.innerHTML += `         <div class="cart-item">           <img src="${item.img}" alt="${item.name}">           <div class="cart-item-details">             <div class="cart-item-title">${item.name}</div>             <div class="cart-item-size">Size: ${item.size}</div>             <div class="cart-item-price">₹${item.price}</div>             <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>           </div>         </div>       `;     });   }    cartCount.innerText = cart.length;   cartTotal.innerText = `₹${total}`; }  
-    window.checkout = function() {   if (cart.length === 0) {     alert('Your archive is empty. Add items to checkout.');     return;   }   let message = "Hello Milano Mode Studio, I would like to order the following items from the archive:%0A%0A";   let total = 0;   cart.forEach((item, index) => {     message += `${index + 1}. ${item.name} - Size: ${item.size} - ₹${item.price}%0A`;     total += item.price;   });   message += `%0A*Total Order Value: ₹${total}*%0A%0APlease provide me with the next steps for payment and shipping details.`;   window.open(`https://wa.me/918052472815?text=${message}`, '_blank'); };  // ---- CART DRAWER TOGGLE ---- 
-    const cartDrawer = document.getElementById('cart-drawer'); const cartOverlay = document.getElementById('cart-overlay'); const closeCartBtn = document.getElementById('close-cart');  function openCart() {   cartDrawer.classList.add('active');   cartOverlay.classList.add('active'); }  function closeCart() {   cartDrawer.classList.remove('active');   cartOverlay.classList.remove('active'); }  closeCartBtn.addEventListener('click', closeCart); cartOverlay.addEventListener('click', closeCart);  
-     const shoppingBagIcon = document.querySelector('.ph-shopping-bag'); if (shoppingBagIcon) {   const wrapper = document.createElement('div');   wrapper.id = 'cart-icon';   wrapper.style.cssText = 'position: relative; display: inline-block; cursor: pointer;';   shoppingBagIcon.parentNode.insertBefore(wrapper, shoppingBagIcon);   wrapper.appendChild(shoppingBagIcon);   const badge = document.createElement('div');   badge.className = 'cart-badge';   badge.id = 'cart-badge-count';   badge.style.display = 'none';   badge.innerText = '0';   wrapper.appendChild(badge);   wrapper.addEventListener('click', openCart); }  
-     updateCartUI(); </script>
+   <script>
+
+// PAGE LOADER
+setTimeout(function () {
+    document.getElementById('page-loader').classList.add('hidden');
+}, 400);
+
+// NAVBAR SCROLL + MENU
+window.addEventListener('load', function () {
+
+    const navbar = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    // Scroll effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Mobile menu toggle
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const icon = hamburger.querySelector('i');
+
+        if (navLinks.classList.contains('active')) {
+            icon.classList.replace('ph-list', 'ph-x');
+        } else {
+            icon.classList.replace('ph-x', 'ph-list');
+        }
+    });
+
+    // Close menu on click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburger.querySelector('i').classList.replace('ph-x', 'ph-list');
+        });
+    });
+
+});
+
+// HERO SLIDER
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.dot');
+
+function goToSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    currentSlide = index;
+
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+function nextSlide() {
+    goToSlide((currentSlide + 1) % slides.length);
+}
+
+setInterval(nextSlide, 5000);
+
+// REVEAL ANIMATION
+const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// TOAST
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2800);
+}
+
+// CART LOGIC
+let cart = JSON.parse(localStorage.getItem('milanoCart')) || [];
+
+function saveCart() {
+    localStorage.setItem('milanoCart', JSON.stringify(cart));
+}
+
+window.addToCart = function (name, price, size, img) {
+    cart.push({ name, price, size, img, id: Date.now() });
+
+    saveCart();
+    updateCartUI();
+
+    showToast('Added to Archive — Size ' + size + ' ✓');
+    setTimeout(openCart, 600);
+};
+
+window.removeFromCart = function (id) {
+    cart = cart.filter(item => item.id !== id);
+    saveCart();
+    updateCartUI();
+};
+
+function updateCartUI() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartCount = document.getElementById('cart-count');
+    const cartTotal = document.getElementById('cart-total-price');
+    const cartBadge = document.getElementById('cart-badge-count');
+
+    cartItemsContainer.innerHTML = '';
+    let total = 0;
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:3rem;">Your archive is empty.</p>';
+        if (cartBadge) cartBadge.style.display = 'none';
+    } else {
+        if (cartBadge) {
+            cartBadge.style.display = 'flex';
+            cartBadge.innerText = cart.length;
+        }
+
+        cart.forEach(item => {
+            total += item.price;
+
+            cartItemsContainer.innerHTML += `
+                <div class="cart-item">
+                    <img src="${item.img}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-size">Size: ${item.size}</div>
+                        <div class="cart-item-price">₹${item.price}</div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    cartCount.innerText = cart.length;
+    cartTotal.innerText = `₹${total}`;
+}
+
+// CHECKOUT
+window.checkout = function () {
+    if (cart.length === 0) {
+        alert('Your archive is empty.');
+        return;
+    }
+
+    let message = "Hello Milano Mode Studio, I would like to order:%0A%0A";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        message += `${index + 1}. ${item.name} - Size: ${item.size} - ₹${item.price}%0A`;
+        total += item.price;
+    });
+
+    message += `%0A*Total: ₹${total}*`;
+
+    window.open(`https://wa.me/918052472815?text=${message}`, '_blank');
+};
+
+// CART UI TOGGLE
+const cartDrawer = document.getElementById('cart-drawer');
+const cartOverlay = document.getElementById('cart-overlay');
+const closeCartBtn = document.getElementById('close-cart');
+
+function openCart() {
+    cartDrawer.classList.add('active');
+    cartOverlay.classList.add('active');
+}
+
+function closeCart() {
+    cartDrawer.classList.remove('active');
+    cartOverlay.classList.remove('active');
+}
+
+closeCartBtn.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+
+// CART ICON BADGE
+const shoppingBagIcon = document.querySelector('.ph-shopping-bag');
+
+if (shoppingBagIcon) {
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'relative';
+
+    shoppingBagIcon.parentNode.insertBefore(wrapper, shoppingBagIcon);
+    wrapper.appendChild(shoppingBagIcon);
+
+    const badge = document.createElement('div');
+    badge.className = 'cart-badge';
+    badge.id = 'cart-badge-count';
+    badge.style.display = 'none';
+    badge.innerText = '0';
+
+    wrapper.appendChild(badge);
+    wrapper.addEventListener('click', openCart);
+}
+
+// INIT
+updateCartUI();
+
+</script>
 </body>
 
 </html>
