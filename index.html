@@ -3,8 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MILANO MODE - Premium quiet luxury clothing by Arun Kr Pathak.">
+<meta name="description" content="MILANO MODE - Premium quiet luxury clothing by Arun Kr Pathak. 240 GSM Supima cotton essentials, engineered in India for the modern silhouette.">
 <meta name="google-site-verification" content="wPQZhu7k6DwPCK5tGIqYJccnIFLaVW7Riz1NYdS8yic">
+<meta name="theme-color" content="#111111">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MILANO MODE | Premium Quiet Luxury">
+<meta property="og:description" content="Quiet luxury for the modern silhouette. 240 GSM Supima Indian cotton, engineered for permanence.">
+<meta property="og:image" content="logo.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/jpeg" href="logo.jpeg">
+<link rel="apple-touch-icon" href="logo.jpeg">
 <title>MILANO MODE | Premium Quiet Luxury</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,8 +38,44 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
 .btn-light{border-color:rgba(255,255,255,.7);color:var(--white)}
 .btn-light::before{background:var(--white)}
 .btn-light:hover{color:var(--text)}
-.navbar{position:fixed;top:0;left:0;width:100%;padding:1.8rem 5%;display:flex;justify-content:space-between;align-items:center;z-index:1000;transition:var(--fast)}
-.navbar.scrolled{background:rgba(248,246,241,.97);backdrop-filter:blur(12px);padding:1rem 5%;border-bottom:1px solid var(--border);box-shadow:0 4px 40px rgba(0,0,0,.04)}
+a:focus-visible,button:focus-visible,.size-btn:focus-visible,.btn:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent);color:var(--white)}
+.scroll-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(to right,var(--accent),var(--accent2));z-index:1100;transition:width .1s linear}
+.announce-bar{background:var(--dark);color:rgba(255,255,255,.75);overflow:hidden;position:fixed;top:0;left:0;width:100%;z-index:999;padding:.55rem 0;font-size:.66rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:500;border-bottom:1px solid rgba(181,144,77,.25);transition:var(--fast)}
+.announce-bar.hide{transform:translateY(-100%)}
+.announce-track{display:flex;width:max-content;animation:announceScroll 22s linear infinite}
+.announce-track span{display:flex;align-items:center;gap:.7rem;padding:0 2.2rem;white-space:nowrap}
+.announce-track span i{color:var(--accent);font-size:.85rem}
+@keyframes announceScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.craft-marquee{background:var(--dark);padding:1.6rem 0;overflow:hidden;position:relative;border-top:1px solid rgba(181,144,77,.2);border-bottom:1px solid rgba(181,144,77,.2)}
+.craft-track{display:flex;width:max-content;animation:marqueeScroll 32s linear infinite}
+.craft-track span{font-family:var(--ff);font-style:italic;font-size:1.5rem;color:rgba(255,255,255,.18);white-space:nowrap;padding:0 2rem;display:flex;align-items:center;gap:2rem}
+.craft-track span b{font-family:var(--fs);font-style:normal;color:var(--accent);font-size:.62rem;letter-spacing:3px;text-transform:uppercase;font-weight:600}
+@keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.stat-strip{display:flex;gap:0;margin-top:2.5rem;border-top:1px solid var(--border);padding-top:2rem}
+.stat-strip div{flex:1;padding-right:1.5rem}
+.stat-strip div:not(:last-child){border-right:1px solid var(--border)}
+.stat-num{font-family:var(--ff);font-size:1.9rem;color:var(--accent);display:block;font-weight:400}
+.stat-label{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);display:block;margin-top:.3rem}
+.wishlist-icon{position:absolute;top:1rem;right:1rem;z-index:3;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--text);cursor:pointer;transition:var(--fast);opacity:0;transform:translateY(-6px)}
+.product-card:hover .wishlist-icon{opacity:1;transform:translateY(0)}
+.wishlist-icon.active{opacity:1;transform:translateY(0);color:#c0392b}
+.wishlist-icon.active i{font-weight:900}
+.wishlist-icon:hover{background:var(--text);color:var(--white)}
+.fabric-tag{font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:.5rem;display:block}
+.rating-row{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:.5rem;font-size:.68rem;color:var(--muted)}
+.rating-row .stars-mini{color:var(--accent);letter-spacing:1px;font-size:.7rem}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;background:var(--dark);color:var(--accent2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;z-index:900;opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--fast);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.back-to-top.show{opacity:1;visibility:visible;transform:translateY(0)}
+.back-to-top:hover{background:var(--accent)}
+.summary-rating{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-top:1.2rem;font-size:.85rem;color:var(--muted)}
+.summary-rating .stars-lg{color:var(--accent);font-size:1.1rem;letter-spacing:2px}
+.summary-rating b{color:var(--text);font-weight:600}
+.payment-row{display:flex;gap:.7rem;margin-top:1.5rem;flex-wrap:wrap}
+.payment-row span{border:1px solid rgba(255,255,255,.15);padding:.4rem .8rem;font-size:.62rem;letter-spacing:1.5px;color:rgba(255,255,255,.5);text-transform:uppercase}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+.navbar{position:fixed;top:34px;left:0;width:100%;padding:1.8rem 5%;display:flex;justify-content:space-between;align-items:center;z-index:1000;transition:var(--fast)}
+.navbar.scrolled{background:rgba(248,246,241,.97);backdrop-filter:blur(12px);padding:1rem 5%;border-bottom:1px solid var(--border);box-shadow:0 4px 40px rgba(0,0,0,.04);top:0}
 .logo{display:flex;align-items:center}
 .logo img{height:42px;width:auto;object-fit:contain;transition:var(--fast)}
 .navbar:not(.scrolled) .logo img{filter:brightness(0) invert(1)}
@@ -157,11 +201,24 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
 .checkout-btn:hover{background:var(--accent)}
 .cart-badge{position:absolute;top:-6px;right:-8px;background:var(--accent);color:var(--white);font-size:.6rem;width:17px;height:17px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold}
 @media(max-width:992px){.about,.footer-grid{grid-template-columns:1fr}.about-img-wrap{order:-1;max-width:480px;margin:0 auto}.about-content{padding-left:0;border-left:none;border-top:1px solid var(--accent);padding-top:2rem}}
-@media(max-width:768px){.nav-links{position:fixed;top:0;right:-100%;width:70%;height:100vh;background:var(--white);flex-direction:column;justify-content:center;align-items:center;transition:var(--ease);box-shadow:-5px 0 30px rgba(0,0,0,.1);z-index:1001;gap:2.5rem}.nav-links.active{right:0}.nav-links a{color:var(--text)!important;font-size:1rem}.hamburger{display:block}.nav-icons{display:none}.trust-badges{grid-template-columns:1fr;padding:2rem 5%}.badge:not(:last-child)::after{right:auto;bottom:0;left:10%;width:80%;height:1px;top:auto}.hero-title{font-size:2.8rem}.footer-grid{gap:2.5rem}.footer-bottom{flex-direction:column;text-align:center}.slide-dots{display:none}.add-to-cart-ui{transform:translateY(0)!important}}
+@media(max-width:768px){.nav-links{position:fixed;top:0;right:-100%;width:70%;height:100vh;background:var(--white);flex-direction:column;justify-content:center;align-items:center;transition:var(--ease);box-shadow:-5px 0 30px rgba(0,0,0,.1);z-index:1001;gap:2.5rem}.nav-links.active{right:0}.nav-links a{color:var(--text)!important;font-size:1rem}.hamburger{display:block}.nav-icons{display:none}.trust-badges{grid-template-columns:1fr;padding:2rem 5%}.badge:not(:last-child)::after{right:auto;bottom:0;left:10%;width:80%;height:1px;top:auto}.hero-title{font-size:2.8rem}.footer-grid{gap:2.5rem}.footer-bottom{flex-direction:column;text-align:center}.slide-dots{display:none}.add-to-cart-ui{transform:translateY(0)!important}.stat-strip{flex-wrap:wrap;gap:1.5rem}.stat-strip div{flex:1 1 40%;border-right:none!important;padding-right:0}.craft-track span{font-size:1.1rem}.back-to-top{right:1.2rem;bottom:1.2rem;width:42px;height:42px}.wishlist-icon{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="announce-bar" id="announce-bar">
+  <div class="announce-track">
+    <span><i class="ph ph-truck"></i> Free Shipping Above &#8377;999</span>
+    <span><i class="ph ph-money"></i> Cash On Delivery Available</span>
+    <span><i class="ph ph-arrow-u-up-left"></i> 7-Day Easy Returns</span>
+    <span><i class="ph ph-seal-check"></i> 240 GSM Supima Cotton</span>
+    <span><i class="ph ph-truck"></i> Free Shipping Above &#8377;999</span>
+    <span><i class="ph ph-money"></i> Cash On Delivery Available</span>
+    <span><i class="ph ph-arrow-u-up-left"></i> 7-Day Easy Returns</span>
+    <span><i class="ph ph-seal-check"></i> 240 GSM Supima Cotton</span>
+  </div>
+</div>
 <nav class="navbar" id="navbar">
   <a href="#" class="logo"><img src="logo.jpeg" alt="Milano Mode"></a>
   <div class="nav-links" id="nav-links">
@@ -202,6 +259,12 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
   <div class="badge reveal" style="transition-delay:.1s"><i class="ph ph-money"></i><h4>Cash on Delivery</h4><p>Available across India</p></div>
   <div class="badge reveal" style="transition-delay:.2s"><i class="ph ph-arrow-u-up-left"></i><h4>Easy Returns</h4><p>7-day seamless return policy</p></div>
 </section>
+<div class="craft-marquee" aria-hidden="true">
+  <div class="craft-track">
+    <span><b>&#8226;</b> Supima Cotton <b>&#8226;</b> Precision Cut <b>&#8226;</b> Made In India <b>&#8226;</b> 240 GSM <b>&#8226;</b> Quiet Luxury <b>&#8226;</b> Permanent Fashion</span>
+    <span><b>&#8226;</b> Supima Cotton <b>&#8226;</b> Precision Cut <b>&#8226;</b> Made In India <b>&#8226;</b> 240 GSM <b>&#8226;</b> Quiet Luxury <b>&#8226;</b> Permanent Fashion</span>
+  </div>
+</div>
 <section id="about" class="about">
   <div class="about-content reveal">
     <span class="section-label">The Milano Mode Story</span>
@@ -210,9 +273,14 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
     <p>Operating from our official studio in Uttar Pradesh, every piece in our archive is a testament to patience, quality, and timeless design. Welcome to a new era of permanent fashion.</p>
     <div class="director-sign">Yash Pathak</div>
     <span class="director-title">Creative Director</span>
+    <div class="stat-strip">
+      <div><span class="stat-num">240</span><span class="stat-label">GSM Cotton</span></div>
+      <div><span class="stat-num">7</span><span class="stat-label">Day Returns</span></div>
+      <div><span class="stat-num">100%</span><span class="stat-label">Made In India</span></div>
+    </div>
   </div>
   <div class="about-img-wrap reveal">
-    <img src="img1.jpeg" alt="Milano Mode Craftsmanship" class="about-img">
+    <img src="img1.jpeg" alt="Milano Mode Craftsmanship" class="about-img" loading="lazy">
   </div>
 </section>
 <section id="shop" class="products">
@@ -225,7 +293,8 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
     <div class="product-card reveal">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img1.jpeg" alt="Signature Crew Ivory" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img1')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img1.jpeg" alt="Signature Crew Ivory" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Signature Crew Ivory',699,'S','img1.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Signature Crew Ivory',699,'M','img1.jpeg')">M</button>
@@ -235,13 +304,15 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Signature Crew &#8212; Ivory</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9 (128)</div>
         <div class="product-price"><span class="price-old">&#8377;1,299</span><span class="price-new">&#8377;699</span></div>
       </div>
     </div>
     <div class="product-card reveal" style="transition-delay:.1s">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img2.jpeg" alt="Onyx Boxy Silhouette" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img2')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img2.jpeg" alt="Onyx Boxy Silhouette" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Onyx Boxy Silhouette',799,'S','img2.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Onyx Boxy Silhouette',799,'M','img2.jpeg')">M</button>
@@ -251,13 +322,15 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Onyx Boxy Silhouette</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 (94)</div>
         <div class="product-price"><span class="price-old">&#8377;1,499</span><span class="price-new">&#8377;799</span></div>
       </div>
     </div>
     <div class="product-card reveal" style="transition-delay:.2s">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img3.jpeg" alt="Slate Studio Polo" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img3')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img3.jpeg" alt="Slate Studio Polo" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Slate Studio Polo',799,'S','img3.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Slate Studio Polo',799,'M','img3.jpeg')">M</button>
@@ -267,13 +340,15 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Slate Studio Polo</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 5.0 (61)</div>
         <div class="product-price"><span class="price-old">&#8377;1,499</span><span class="price-new">&#8377;799</span></div>
       </div>
     </div>
     <div class="product-card reveal">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img4.jpeg" alt="Archive Graphic 01" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img4')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img4.jpeg" alt="Archive Graphic 01" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Archive Graphic 01',699,'S','img4.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Archive Graphic 01',699,'M','img4.jpeg')">M</button>
@@ -283,13 +358,15 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Archive Graphic 01</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.7 (40)</div>
         <div class="product-price"><span class="price-old">&#8377;1,299</span><span class="price-new">&#8377;699</span></div>
       </div>
     </div>
     <div class="product-card reveal" style="transition-delay:.1s">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img5.jpeg" alt="Heavyweight Sandstone" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img5')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img5.jpeg" alt="Heavyweight Sandstone" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Heavyweight Sandstone',799,'S','img5.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Heavyweight Sandstone',799,'M','img5.jpeg')">M</button>
@@ -299,13 +376,15 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Heavyweight Sandstone</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.9 (77)</div>
         <div class="product-price"><span class="price-old">&#8377;1,499</span><span class="price-new">&#8377;799</span></div>
       </div>
     </div>
     <div class="product-card reveal" style="transition-delay:.2s">
       <div class="product-img-wrap">
         <span class="sale-badge">Sale</span>
-        <img src="img6.jpeg" alt="Bespoke Navy Tailored" class="product-img">
+        <div class="wishlist-icon" onclick="toggleWishlist(this,'img6')" role="button" aria-label="Add to wishlist"><i class="ph ph-heart"></i></div>
+        <img src="img6.jpeg" alt="Bespoke Navy Tailored" class="product-img" loading="lazy">
         <div class="add-to-cart-ui"><div class="size-selector">
           <button class="size-btn" onclick="addToCart('Bespoke Navy Tailored',799,'S','img6.jpeg')">S</button>
           <button class="size-btn" onclick="addToCart('Bespoke Navy Tailored',799,'M','img6.jpeg')">M</button>
@@ -315,6 +394,7 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
       </div>
       <div class="product-info">
         <h3 class="product-title">Bespoke Navy Tailored</h3>
+      <div class="rating-row"><span class="stars-mini">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 (52)</div>
         <div class="product-price"><span class="price-old">&#8377;1,499</span><span class="price-new">&#8377;799</span></div>
       </div>
     </div>
@@ -325,6 +405,7 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
   <div class="section-title reveal">
     <span class="section-label">Clientele</span>
     <h2>Words from the Archive</h2>
+    <div class="summary-rating"><span class="stars-lg">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>4.9 out of 5</b> &#8212; based on 452 verified reviews</div>
   </div>
   <div class="testimonial-grid">
     <div class="review-card reveal">
@@ -385,6 +466,9 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
         <a href="#" aria-label="Twitter"><i class="ph ph-twitter-logo"></i></a>
         <a href="#" aria-label="Facebook"><i class="ph ph-facebook-logo"></i></a>
       </div>
+      <div class="payment-row">
+        <span>UPI</span><span>Cards</span><span>Net Banking</span><span>COD</span>
+      </div>
     </div>
     <div class="footer-col">
       <h4>The Archive</h4>
@@ -423,12 +507,22 @@ h1,h2,h3{font-family:var(--ff);font-weight:400;line-height:1.15}
     <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
   </div>
 </div>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top"><i class="ph ph-arrow-up"></i></button>
 <script>
 var navbar=document.getElementById('navbar');
+var announceBar=document.getElementById('announce-bar');
+var scrollProgress=document.getElementById('scroll-progress');
+var backToTop=document.getElementById('back-to-top');
 window.addEventListener('scroll',function(){
-  if(window.scrollY>50){navbar.classList.add('scrolled');}
-  else{navbar.classList.remove('scrolled');}
+  if(window.scrollY>50){navbar.classList.add('scrolled');announceBar.classList.add('hide');}
+  else{navbar.classList.remove('scrolled');announceBar.classList.remove('hide');}
+  var docHeight=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  var pct=docHeight>0?(window.scrollY/docHeight)*100:0;
+  scrollProgress.style.width=pct+'%';
+  if(window.scrollY>800){backToTop.classList.add('show');}
+  else{backToTop.classList.remove('show');}
 });
+backToTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 var hamburger=document.getElementById('hamburger');
 var navLinks=document.getElementById('nav-links');
 hamburger.addEventListener('click',function(){
@@ -466,6 +560,19 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},2800);
 }
+var wishlist=[];
+try{wishlist=JSON.parse(localStorage.getItem('milanoWishlist'))||[];}catch(e){wishlist=[];}
+function saveWishlist(){try{localStorage.setItem('milanoWishlist',JSON.stringify(wishlist));}catch(e){}}
+window.toggleWishlist=function(el,key){
+  var idx=wishlist.indexOf(key);
+  if(idx===-1){wishlist.push(key);el.classList.add('active');el.querySelector('i').className='ph-fill ph-heart';showToast('Saved to Wishlist');}
+  else{wishlist.splice(idx,1);el.classList.remove('active');el.querySelector('i').className='ph ph-heart';}
+  saveWishlist();
+};
+document.querySelectorAll('.wishlist-icon').forEach(function(el){
+  var key=el.getAttribute('onclick').match(/'([^']+)'/)[1];
+  if(wishlist.indexOf(key)!==-1){el.classList.add('active');el.querySelector('i').className='ph-fill ph-heart';}
+});
 var cart=[];
 try{cart=JSON.parse(localStorage.getItem('milanoCart'))||[];}catch(e){cart=[];}
 function saveCart(){try{localStorage.setItem('milanoCart',JSON.stringify(cart));}catch(e){}}
